@@ -106,7 +106,7 @@ public class AuthController {
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = "Bad Request";
+            String fieldName = "Error validating Data Transfer Object";
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
