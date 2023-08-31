@@ -31,10 +31,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -72,9 +69,11 @@ class AuthControllerTest {
         loginUserDto.setEmail("sebastian@gmail.com");
         loginUserDto.setPassword("sebas10capo");
     }
-    private List<String> createRoles() {
-        String roleA = "Provider";
-        return new ArrayList<>(List.of(roleA));
+    private List<Long> createRoles() {
+        long roleA = 2L;
+        ArrayList<Long> list = new ArrayList<>();
+        list.add(roleA);
+        return list;
     }
     private List<Area> createAreas(){
         Area area1= new Area(1l,AreasNames.Masonry);
