@@ -1,6 +1,7 @@
 package com.c1331tjava.ServiceApp.service;
 
 import com.c1331tjava.ServiceApp.dto.RegisterUserDto;
+import com.c1331tjava.ServiceApp.exception.CustomedHandler;
 import com.c1331tjava.ServiceApp.exception.UserAlreadyExistException;
 import com.c1331tjava.ServiceApp.model.Area;
 import com.c1331tjava.ServiceApp.model.Role;
@@ -49,7 +50,11 @@ public class AuthServiceImpl implements I_UserService {
         if (userRepository.findByEmail(userEntity.getEmail()).isPresent()){
             throw new UserAlreadyExistException("Este Usuario ya existe");
         }else {
-            userRepository.save(userEntity);
+            try {
+                userRepository.save(userEntity);
+            } catch (Exception e) {
+                throw new CustomedHandler("Error saving user on database");
+            }
         }
         return user;
     }
@@ -57,7 +62,11 @@ public class AuthServiceImpl implements I_UserService {
     private List<Role> setRole(List<String> roles) {
         List<Role> aux = new ArrayList<>();
             for (int i=0;i<roles.size();i++){
-                aux.add(this.roleService.findByName(RolesNames.valueOf(roles.get(i))));
+                try {
+                    aux.add(this.roleService.findByName(RolesNames.valueOf(roles.get(i))));
+                } catch (IllegalArgumentException e) {
+                    throw new CustomedHandler("Error adding role to user");
+                }
             }
         return aux;
     }
@@ -67,7 +76,11 @@ public class AuthServiceImpl implements I_UserService {
     private List<Area> setArea(List<String> areas) {
         List<Area> aux = new ArrayList<>();
         for (int i=0;i<areas.size();i++){
-            aux.add(this.areaService.findByName(AreasNames.valueOf(areas.get(i))));
+            try {
+                aux.add(this.areaService.findByName(AreasNames.valueOf(areas.get(i))));
+            } catch (IllegalArgumentException e) {
+                throw new CustomedHandler("Error adding area to user");
+            }
         }
         return aux;
     }
