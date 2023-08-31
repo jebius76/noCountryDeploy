@@ -25,5 +25,9 @@ public class RoleServiceImpl implements I_RoleService {
     public Role findByName(RolesNames name) {
         return roleRepository.findByName(name);
     }
+
+    public Role findById (Long id){
+        return roleRepository.findById(id).get();
+    }
 }
 

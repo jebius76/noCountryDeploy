@@ -59,11 +59,11 @@ public class AuthServiceImpl implements I_UserService {
         return user;
     }
     private Random random = new Random();
-    private List<Role> setRole(List<String> roles) {
+    private List<Role> setRole(List<Long> roles) {
         List<Role> aux = new ArrayList<>();
             for (int i=0;i<roles.size();i++){
                 try {
-                    aux.add(this.roleService.findByName(RolesNames.valueOf(roles.get(i))));
+                    aux.add(this.roleService.findById(roles.get(i)));
                 } catch (IllegalArgumentException e) {
                     throw new CustomedHandler("Error adding role to user");
                 }
@@ -73,11 +73,11 @@ public class AuthServiceImpl implements I_UserService {
     private long generateRandomId() {
         return random.nextLong();
     }
-    private List<Area> setArea(List<String> areas) {
+    private List<Area> setArea(List<Long> areas) {
         List<Area> aux = new ArrayList<>();
         for (int i=0;i<areas.size();i++){
             try {
-                aux.add(this.areaService.findByName(AreasNames.valueOf(areas.get(i))));
+                aux.add(this.areaService.findById(areas.get(i)));
             } catch (IllegalArgumentException e) {
                 throw new CustomedHandler("Error adding area to user");
             }

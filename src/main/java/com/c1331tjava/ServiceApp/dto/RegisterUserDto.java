@@ -31,8 +31,8 @@ public class RegisterUserDto {
     @NotNull
     private String te;
     @Nullable
-    private List<String> areas;
+    private List<Long> areas;
     @NotNull
-    private List<String> roles;
+    private List<Long> roles;
 }
 
