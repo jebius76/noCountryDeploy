@@ -19,7 +19,6 @@ public class AreaServiceImpl implements I_AreaService {
     }
 
     public Area findById(Long id){
-
         return areaRepository.findById(id).get();
     }
 

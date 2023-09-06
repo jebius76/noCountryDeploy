@@ -6,8 +6,6 @@ import com.c1331tjava.ServiceApp.exception.UserAlreadyExistException;
 import com.c1331tjava.ServiceApp.model.Area;
 import com.c1331tjava.ServiceApp.model.Role;
 import com.c1331tjava.ServiceApp.model.UserEntity;
-import com.c1331tjava.ServiceApp.model.enums.AreasNames;
-import com.c1331tjava.ServiceApp.model.enums.RolesNames;
 import com.c1331tjava.ServiceApp.repository.I_UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +62,7 @@ public class AuthServiceImpl implements I_UserService {
             for (int i=0;i<roles.size();i++){
                 try {
                     aux.add(this.roleService.findById(roles.get(i)));
-                } catch (IllegalArgumentException e) {
+                } catch (Exception e) {
                     throw new CustomedHandler("Error adding role to user");
                 }
             }
@@ -78,7 +76,7 @@ public class AuthServiceImpl implements I_UserService {
         for (int i=0;i<areas.size();i++){
             try {
                 aux.add(this.areaService.findById(areas.get(i)));
-            } catch (IllegalArgumentException e) {
+            } catch (Exception e) {
                 throw new CustomedHandler("Error adding area to user");
             }
         }

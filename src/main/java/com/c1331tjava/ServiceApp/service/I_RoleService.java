@@ -6,6 +6,5 @@ import org.springframework.stereotype.Service;
 
 public interface I_RoleService  {
     Role findByName(RolesNames name);
-
     Role findById(Long id);
 }
