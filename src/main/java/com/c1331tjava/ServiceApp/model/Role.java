@@ -19,4 +19,8 @@ public class Role {
     @Enumerated(EnumType.STRING)
     private RolesNames name;
 
+    @Override
+    public String toString() {
+        return String.valueOf(name);
+    }
 }

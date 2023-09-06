@@ -1,13 +1,16 @@
 package com.c1331tjava.ServiceApp.controller;
 
+import com.c1331tjava.ServiceApp.dto.LoginResponseDTO;
 import com.c1331tjava.ServiceApp.dto.LoginUserDto;
 import com.c1331tjava.ServiceApp.dto.RegisterUserDto;
 import com.c1331tjava.ServiceApp.exception.UserAlreadyExistException;
+import com.c1331tjava.ServiceApp.model.UserEntity;
 import com.c1331tjava.ServiceApp.security.filter.JwtUtil;
 import com.c1331tjava.ServiceApp.service.I_UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This class represents the REST controller for handling authentication and user registration.
@@ -41,6 +42,9 @@ public class AuthController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    ModelMapper modelMapper;
 
     /**
      * Endpoint for user login.
@@ -65,9 +69,13 @@ public class AuthController {
             // Generate JWT token
             String token = jwtUtil.generateAccesToken(loginUserDto.getEmail());
 
-            // Return JWT token in the response
+            // Return JWT token and user details in the response
             Map<String, String> responseBody = new HashMap<>();
+            UserEntity currentUser = userService.findByEmail(loginUserDto.getEmail()).get();
             responseBody.put("token", token);
+            responseBody.put("name", currentUser.getUserName());
+            responseBody.put("lastname", currentUser.getUserLastname());
+            responseBody.put("roles", currentUser.getRoles().toString());
             return new ResponseEntity<>(responseBody, HttpStatus.OK);
         } catch (BadCredentialsException e) {
             // Return an error response if authentication fails
